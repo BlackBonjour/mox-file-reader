@@ -24,14 +24,14 @@ class BinaryReader
      */
     public function read(int $length, ?int $offset = null): string
     {
-        if (($this->pointer + $length) >= $this->length) {
-            throw new OutOfBoundsException('Reading past data length!');
-        }
-
         // Move pointer if no custom offset is given
         if ($offset === null) {
             $offset        = $this->pointer;
             $this->pointer += $length;
+        }
+
+        if (($offset + $length) >= $this->length) {
+            throw new OutOfBoundsException('Reading past data length!');
         }
 
         return substr($this->data, $offset, $length);
